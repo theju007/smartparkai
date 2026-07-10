@@ -1,0 +1,17 @@
+body{
+    background:#f4f7fb;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.navbar{
+    padding:15px;
+}
+
+.display-4{
+    color:#2563EB;
+    margin-top:60px;
+}
+
+.btn-primary{
+    margin-top:20px;
+}
