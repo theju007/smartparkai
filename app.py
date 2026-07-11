@@ -1,7 +1,8 @@
 from flask import Flask
 
 from config import Config
-from extensions import db, bcrypt, login_manager
+from extensions import db, bcrypt, login_manager, migrate
+from routes.vehicle import vehicle
 
 # Import models so SQLAlchemy knows about them
 from models.user import User
@@ -23,12 +24,12 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
     app.register_blueprint(auth)
+    app.register_blueprint(vehicle)
 
-    with app.app_context():
-        db.create_all()
-
+   
     return app
 
 

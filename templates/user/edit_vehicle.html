@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Vehicle{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-6">
+
+<div class="card shadow rounded-4">
+
+<div class="card-body p-5">
+
+<h2 class="text-center mb-4">
+✏️ Edit Vehicle
+</h2>
+
+<form method="POST">
+
+<div class="mb-3">
+<label>Vehicle Number</label>
+
+<input
+type="text"
+name="vehicle_number"
+class="form-control"
+value="{{ vehicle.vehicle_number }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Vehicle Type</label>
+
+<select
+name="vehicle_type"
+class="form-select">
+
+<option value="Car"
+{% if vehicle.vehicle_type=="Car" %}selected{% endif %}>
+Car
+</option>
+
+<option value="Bike"
+{% if vehicle.vehicle_type=="Bike" %}selected{% endif %}>
+Bike
+</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label>Brand</label>
+
+<input
+type="text"
+name="brand"
+class="form-control"
+value="{{ vehicle.brand }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Model</label>
+
+<input
+type="text"
+name="model"
+class="form-control"
+value="{{ vehicle.model }}"
+required>
+
+</div>
+
+<div class="mb-4">
+
+<label>Color</label>
+
+<input
+type="text"
+name="color"
+class="form-control"
+value="{{ vehicle.color }}"
+required>
+
+</div>
+
+<div class="d-grid">
+
+<button class="btn btn-warning">
+
+Update Vehicle
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

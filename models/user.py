@@ -22,3 +22,11 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(20), default="User")
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    
+    vehicles = db.relationship(
+    "Vehicle",
+    backref="owner",
+    lazy=True,
+    cascade="all, delete-orphan"
+)
