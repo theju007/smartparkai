@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Parking Layout{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="text-center fw-bold mb-3">
+        🅿️ Smart Parking Layout
+    </h2>
+
+    <p class="text-center text-muted mb-5">
+        Select an available parking slot to continue booking.
+    </p>
+    <div class="text-center mb-4">
+
+<span class="badge bg-success p-2">
+🟢 Available
+</span>
+
+<span class="badge bg-danger p-2 ms-2">
+🔴 Occupied
+</span>
+
+<span class="badge bg-warning text-dark p-2 ms-2">
+🟡 Reserved
+</span>
+
+</div>
+    <!-- Parking Statistics -->
+
+<div class="row text-center mb-5">
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body">
+
+                <h5 class="text-success">🟢 Available</h5>
+
+                <h2>{{ available }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body">
+
+                <h5 class="text-danger">🔴 Occupied</h5>
+
+                <h2>{{ occupied }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body">
+
+                <h5 class="text-warning">🟡 Reserved</h5>
+
+                <h2>{{ reserved }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Entry -->
+    <div class="text-center mb-4">
+        <h4 class="text-success">🚗 ENTRY GATE 🚗</h4>
+    </div>
+
+    <div class="parking-grid">
+
+{% for slot in slots %}
+
+<div>
+
+    {% if slot.status=="Available" %}
+
+    <a href="{{ url_for('booking.book_slot', slot_id=slot.id) }}"
+       class="slot available text-decoration-none">
+
+        🚗
+
+        <i class="bi bi-car-front-fill slot-icon"></i>
+
+        <h3>{{ slot.slot_number }}</h3>
+
+        <p class="slot-status">
+            Available
+        </p>
+
+        <span class="slot-action">
+            Click to Book
+    </span>
+
+    </a>
+
+    {% elif slot.status=="Occupied" %}
+
+    <div class="slot occupied">
+
+        🚙
+
+        <i class="bi bi-car-front-fill slot-icon"></i>
+
+        <h3>{{ slot.slot_number }}</h3>
+
+        <p class="slot-status">
+            Occupied
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <div class="slot reserved">
+
+        🚘
+
+        <i class="bi bi-car-front-fill slot-icon"></i>
+
+        <h3>{{ slot.slot_number }}</h3>
+
+        <p class="slot-status">
+            Reserved
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% if loop.index==4 or loop.index==8 %}
+
+<div class="road">
+    🚗 DRIVE WAY 🚗
+</div>
+
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+    <!-- Exit -->
+
+    <div class="text-center mt-5">
+
+        <h4 class="text-danger">
+
+            🚧 EXIT GATE 🚧
+
+        </h4>
+
+    </div>
+
+</div>
+
+{% endblock %}

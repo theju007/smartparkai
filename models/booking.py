@@ -10,6 +10,8 @@ class Booking(db.Model):
 
     slot_id = db.Column(db.Integer, db.ForeignKey("parking_slots.id"))
 
+    slot = db.relationship("ParkingSlot", backref="bookings")
+
     booking_date = db.Column(db.Date)
 
     entry_time = db.Column(db.DateTime)

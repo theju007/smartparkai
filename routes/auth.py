@@ -1,7 +1,16 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required
+from flask_login import (
+    login_user,
+    logout_user,
+    login_required,
+    current_user
+)
 
 from extensions import db, bcrypt
+from models.user import User
+from models.vehicle import Vehicle
+from models.parking_slot import ParkingSlot
+from models.booking import Booking
 from models.user import User
 
 auth = Blueprint("auth", __name__)
@@ -86,7 +95,44 @@ def login():
 @auth.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template("user/dashboard.html")
+
+    total_users = User.query.count()
+
+    my_vehicles = Vehicle.query.filter_by(
+        user_id=current_user.id
+    ).count()
+
+    available_slots = ParkingSlot.query.filter_by(
+        status="Available"
+    ).count()
+
+    occupied_slots = ParkingSlot.query.filter_by(
+        status="Occupied"
+    ).count()
+
+    reserved_slots = ParkingSlot.query.filter_by(
+        status="Reserved"
+    ).count()
+
+    total_bookings = Booking.query.count()
+
+    return render_template(
+
+        "user/dashboard.html",
+
+        total_users=total_users,
+
+        my_vehicles=my_vehicles,
+
+        available_slots=available_slots,
+
+        occupied_slots=occupied_slots,
+
+        reserved_slots=reserved_slots,
+
+        total_bookings=total_bookings
+
+    )
 #---------------- LOGOUT ----------------
 @auth.route("/logout")
 @login_required

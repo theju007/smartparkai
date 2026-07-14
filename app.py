@@ -11,6 +11,9 @@ from models.vehicle import Vehicle
 from models.booking import Booking
 from models.entry_log import EntryLog
 from models.exit_log import ExitLog
+from routes.parking import parking
+from routes.booking import booking
+from routes.my_bookings import my_bookings
 
 # Import blueprint
 from routes.auth import auth
@@ -37,6 +40,10 @@ app = create_app()
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+app.register_blueprint(parking)
+app.register_blueprint(booking)
+app.register_blueprint(my_bookings)
 
 if __name__ == "__main__":
     app.run(debug=True)
