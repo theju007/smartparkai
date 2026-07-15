@@ -13,23 +13,16 @@
     <table class="table table-bordered table-hover">
 
         <thead class="table-dark">
-
             <tr>
-
                 <th>ID</th>
-
                 <th>Slot</th>
-
                 <th>Date</th>
-
                 <th>Entry</th>
-
                 <th>Exit</th>
-
                 <th>Status</th>
-
+                <th>Fee</th>
+                <th>QR Code</th>
             </tr>
-
         </thead>
 
         <tbody>
@@ -49,12 +42,86 @@
             <td>{{ booking.exit_time.strftime("%I:%M %p") }}</td>
 
             <td>
+                {% if booking.status == "Booked" %}
 
-                <span class="badge bg-success">
+                    <span class="badge bg-success fs-6">
+                        Booked
+                    </span>
 
-                    {{ booking.status }}
+                {% elif booking.status == "Completed" %}
 
-                </span>
+                    <span class="badge bg-secondary fs-6">
+                        Completed
+                    </span>
+
+                {% elif booking.status == "Cancelled" %}
+
+                    <span class="badge bg-danger fs-6">
+                        Cancelled
+                    </span>
+
+                {% endif %}
+            </td>
+
+            <td>
+                ₹ {{ "%.2f"|format(booking.parking_fee) }}
+            </td>
+
+            <td>
+
+                {% if booking.status == "Booked" %}
+
+                    {% if booking.qr_filename %}
+
+                        <a href="{{ url_for('static',
+                        filename='qr_codes/' + booking.qr_filename) }}"
+                           target="_blank"
+                           class="btn btn-primary btn-sm mb-2 w-100">
+
+                            <i class="bi bi-qr-code"></i>
+                            View QR
+
+                        </a>
+
+                    {% endif %}
+
+                    <a href="{{ url_for('cancel_booking.cancel',
+                    booking_id=booking.id) }}"
+                       class="btn btn-warning btn-sm mb-2 w-100">
+
+                        <i class="bi bi-x-circle"></i>
+                        Cancel Booking
+
+                    </a>
+
+                    <a href="{{ url_for('exit.vehicle_exit',
+                    booking_id=booking.id) }}"
+                       class="btn btn-danger btn-sm w-100">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                        Vehicle Exit
+
+                    </a>
+
+                {% elif booking.status == "Completed" %}
+
+                    <span class="badge bg-secondary fs-6">
+                        Completed
+                    </span>
+
+                {% elif booking.status == "Cancelled" %}
+
+                    <span class="badge bg-danger fs-6">
+                        Cancelled
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-warning text-dark">
+                        QR Not Available
+                    </span>
+
+                {% endif %}
 
             </td>
 

@@ -8,6 +8,14 @@ from models.parking_slot import ParkingSlot
 from models.vehicle import Vehicle
 import qrcode
 import os
+import razorpay
+from config import Config
+client = razorpay.Client(
+    auth=(
+        Config.RAZORPAY_KEY_ID,
+        Config.RAZORPAY_KEY_SECRET
+    )
+)
 
 booking = Blueprint("booking", __name__)
 
@@ -77,11 +85,15 @@ def book_slot(slot_id):
         filename = f"booking_{booking.id}.png"
 
         filepath = os.path.join(
+            "static",
             "qr_codes",
-        filename
+            filename
         )
 
         img.save(filepath)
+        booking.qr_filename = filename
+
+        db.session.commit()
 
         flash(
             "Booking created successfully!",

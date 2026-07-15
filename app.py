@@ -14,9 +14,12 @@ from models.exit_log import ExitLog
 from routes.parking import parking
 from routes.booking import booking
 from routes.my_bookings import my_bookings
+from routes.cancel_booking import cancel_booking
+from routes.payment import payment
 
 # Import blueprint
 from routes.auth import auth
+from routes.exit import exit_bp
 
 
 def create_app():
@@ -44,6 +47,9 @@ def load_user(user_id):
 app.register_blueprint(parking)
 app.register_blueprint(booking)
 app.register_blueprint(my_bookings)
+app.register_blueprint(exit_bp)
+app.register_blueprint(cancel_booking)
+app.register_blueprint(payment)
 
 if __name__ == "__main__":
     app.run(debug=True)
